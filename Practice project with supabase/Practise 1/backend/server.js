@@ -20,12 +20,33 @@ const app = express();
 const PORT = process.env.PORT || 5000;
 const JWT_SECRET = process.env.JWT_SECRET || "mongodb_jwt_secret_key_123";
 
-// Connect to MongoDB
-connectDB();
+// Attempt initial connection on boot
+connectDB().catch((err) => {
+  console.error("Initial DB connection attempt:", err.message);
+});
 
 app.use(cors());
 app.use(express.json());
 app.use(logger);
+
+// Middleware to ensure DB is connected before processing requests (crucial for Vercel Serverless)
+app.use(async (req, res, next) => {
+  try {
+    await connectDB();
+    next();
+  } catch (err) {
+    console.error("Database connection failure:", err.message);
+    res.status(500).json({
+      message: "Database connection failed. Please ensure MONGODB_URI is properly configured in Vercel environment variables.",
+      error: err.message,
+    });
+  }
+});
+
+// Root health check endpoint
+app.get("/", (req, res) => {
+  res.json({ status: "ok", message: "Todo Backend API is running with MongoDB" });
+});
 
 // ----- AUTHENTICATION ROUTES -----
 

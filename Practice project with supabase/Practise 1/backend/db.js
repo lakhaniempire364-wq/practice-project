@@ -1,29 +1,34 @@
 const mongoose = require("mongoose");
 require("dotenv").config();
 
-async function connectDB() {
-  const uri = process.env.MONGODB_URI;
+let isConnected = false;
 
-  if (!uri) {
-    console.error("❌ MONGODB_URI is not set in backend/.env!");
+async function connectDB() {
+  if (isConnected || mongoose.connection.readyState === 1) {
     return;
   }
 
+  const uri = process.env.MONGODB_URI;
+
+  if (!uri) {
+    console.error("❌ MONGODB_URI is not set in environment variables!");
+    throw new Error("MONGODB_URI is not set in environment variables");
+  }
+
   if (uri.includes("<db_password>")) {
-    console.warn("\n⚠️  ===============================================================");
-    console.warn("⚠️  [MongoDB] Notice: Your MONGODB_URI contains '<db_password>'.");
-    console.warn("👉 Please open backend/.env and replace '<db_password>' with your actual MongoDB Atlas database password.");
-    console.warn("⚠️  ===============================================================\n");
+    console.warn("\n⚠️  [MongoDB] Warning: Your MONGODB_URI still contains '<db_password>'.");
+    console.warn("👉 Please set MONGODB_URI in your environment variables with your actual MongoDB Atlas database password.\n");
   }
 
   try {
-    const conn = await mongoose.connect(uri);
+    const conn = await mongoose.connect(uri, {
+      bufferCommands: false,
+    });
+    isConnected = true;
     console.log(`✅ MongoDB Connected: ${conn.connection.host}`);
   } catch (error) {
     console.error(`❌ MongoDB Connection Error: ${error.message}`);
-    if (error.message.includes("bad auth") || error.message.includes("Authentication failed")) {
-      console.error("👉 Please ensure you replaced '<db_password>' in backend/.env with your real password.");
-    }
+    throw error;
   }
 }
 
