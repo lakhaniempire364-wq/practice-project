@@ -1,0 +1,35 @@
+{
+  "permissions": {
+    "allow": [
+      "Bash(npm create *)",
+      "Bash(npm install *)",
+      "Bash(node server.js)",
+      "Bash(curl -s http://localhost:5000/todos)",
+      "Bash(curl -s -X POST http://localhost:5000/todos -H \"Content-Type: application/json\" -d '{\"text\":\"Test todo\"}')",
+      "Bash(curl -s -X PUT http://localhost:5000/todos/1 -H \"Content-Type: application/json\" -d '{\"text\":\"Learn React Updated\"}')",
+      "Bash(curl -s -X DELETE http://localhost:5000/todos/2)",
+      "Bash(npm run *)",
+      "Bash(curl -s http://localhost:5173/)",
+      "PowerShell(Start-Process \"http://localhost:5173\")",
+      "Bash(lsof -ti:5000 -sTCP:LISTEN)",
+      "Bash(xargs -r kill)",
+      "Bash(netstat -ano)",
+      "Bash(taskkill //PID 18692 //F)",
+      "Bash(taskkill //PID 2832 //F)",
+      "Bash(taskkill //PID 19516 //F)",
+      "Bash(curl -s -X POST http://localhost:5000/todos -H \"Content-Type: application/json\" -d '{}')",
+      "Bash(curl -s -X POST http://localhost:5000/todos -H \"Content-Type: application/json\" -d '{\"text\":\"Learn middleware\"}')",
+      "Bash(curl -s http://localhost:5000/nope)",
+      "Bash(curl -s -o /dev/null -w \"%{http_code}\\\\n\" http://localhost:5173/)",
+      "Bash(curl -s -o /dev/null -w \"%{http_code}\\\\n\" http://localhost:5000/todos)",
+      "Bash(taskkill //PID 9772 //F)",
+      "PowerShell(Start-Process powershell -ArgumentList '-NoExit','-Command',\"cd 'c:\\\\Users\\\\PC\\\\Desktop\\\\Practise 1\\\\backend'; node server.js\")",
+      "Bash(curl -s http://localhost:5000/does-not-exist)",
+      "Bash(curl -s -o /dev/null -w \"status: %{http_code}\\\\n\" http://localhost:5000/todos)",
+      "Bash(curl -s -w \"\\\\nstatus: %{http_code}\\\\n\" -X POST http://localhost:5000/todos -H \"Content-Type: application/json\" -d '{}')",
+      "Bash(curl -s -w \"\\\\nstatus: %{http_code}\\\\n\" http://localhost:5000/no-such-route)",
+      "Bash(curl -s -w \"\\\\nstatus: %{http_code}\\\\n\" http://localhost:5000/test-error)",
+      "Bash(taskkill //PID 16880 //F)"
+    ]
+  }
+}
